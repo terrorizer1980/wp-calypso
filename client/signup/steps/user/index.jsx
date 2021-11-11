@@ -241,7 +241,7 @@ export class UserStep extends Component {
 	getLoginUrl( props ) {
 		const { oauth2Client, wccomFrom, isReskinned, sectionName, from, locale } = props;
 
-		login( {
+		return login( {
 			isJetpack: 'jetpack-connect' === sectionName,
 			from,
 			redirectTo: getRedirectToAfterLoginUrl( props ),
