@@ -50,7 +50,7 @@ class SimplerForm extends Component {
 				) }
 
 				{ ! shouldShowEmailSignupForm && (
-					<div className="signup-form__p2-form-separator">{ this.props.translate( 'or' ) }</div>
+					<div className="signup-form__separator">{ this.props.translate( 'or' ) }</div>
 				) }
 
 				{ ! shouldShowEmailSignupForm && (
