@@ -602,7 +602,11 @@ class SignupForm extends Component {
 					</>
 				) }
 
-				<FormLabel htmlFor="email">{ this.props.translate( 'Your email address' ) }</FormLabel>
+				<FormLabel htmlFor="email">
+					{ this.props.isSimplerMobileForm
+						? this.props.translate( 'Your email' )
+						: this.props.translate( 'Your email address' ) }
+				</FormLabel>
 				<FormTextInput
 					autoCapitalize="off"
 					autoCorrect="off"
@@ -838,11 +842,6 @@ class SignupForm extends Component {
 			);
 		}
 		return false;
-	}
-
-	isSimplerMobileForm() {
-		// to do figure out this condition.
-		return true;
 	}
 
 	emailDisableExplanation() {
