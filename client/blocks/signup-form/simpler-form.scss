@@ -1,7 +1,7 @@
 
 
 .simpler-form.simpler-form.simpler-form.simpler-form.simpler-form.simpler-form {
-    padding: 0 16px;
+    padding: 0 18px;
     max-width: 380px;
     margin: 0 auto;
 
@@ -42,9 +42,17 @@
     }
 
     .button.button.button {
-        border: 1px solid #ddd;
-        border-radius: 2px;
-        font-weight: 600;
+        border: 1px solid #dcdcde;
+        box-sizing: border-box;
+        /* stylelint-disable-next-line */
+        border-radius: 4px; 
+
+        font-style: normal;
+        font-weight: normal;
+        /* stylelint-disable-next-line */
+        font-size: rem( 14px);
+
+        letter-spacing: -0.154px;
         text-align: center;
         position: relative;
         line-height: 32px;
@@ -53,6 +61,7 @@
         color: #333;
         width: 100%;
         height: auto;
+        margin-bottom: 16px;
 
         svg {
             border: none;
@@ -63,7 +72,7 @@
         .gridicon {
             top: 16px;
             left: 12px;
-            fill: #777;
+            fill: #000;
         }
     }
 
@@ -77,13 +86,18 @@
             background-color: var( --color-accent );
             border-color: var( --color-accent );
             color: var( --color-text-inverted );
+            margin: 24px 0 16px;
         }
     }
 
     .signup-form__social-buttons-tos,
     .signup-form__terms-of-service-link {
-        font-size: $font-body-extra-small;
+        line-height: 150%;
+        letter-spacing: -0.154px;
+        /* stylelint-disable-next-line */
+        font-size: rem( 12px );
         color: var( --studio-gray-40 );
+
         a {
             color: var( --studio-gray-40 );
             text-decoration: underline;
@@ -96,5 +110,14 @@
 
     .signup-form__recaptcha-tos {
         display: none;
+    }
+
+    .logged-out-form__footer {
+        display: flex;
+        flex-direction: column;
+
+        .signup-form__terms-of-service-link {
+            order: 2;
+        }
     }
 }
