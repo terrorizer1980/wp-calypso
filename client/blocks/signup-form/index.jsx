@@ -128,6 +128,7 @@ class SignupForm extends Component {
 		},
 		form: null,
 		validationInitialized: false,
+		setUsernameHint: true,
 	};
 
 	getInitialFields() {
@@ -369,7 +370,31 @@ class SignupForm extends Component {
 			name: name,
 			value: value,
 		} );
+
+		if ( this.props.isSimplerMobileForm ) {
+			this.setEmailBasedUsername();
+		}
 	};
+
+	// This sets the username when the user updates the email address.
+	setEmailBasedUsername( name, value ) {
+		if ( 'email' === name ) {
+			if ( this.state.setUsernameHint ) {
+				this.formStateController.handleFieldChange( {
+					name: 'username',
+					value: this.getUserNameHint(),
+				} );
+			}
+
+			if ( '' === formState.getFieldValue( this.state.form, 'username' ) ) {
+				this.setState( { setUsernameHint: true } );
+			}
+		}
+
+		if ( 'username' === name ) {
+			this.setState( { setUsernameHint: ! value } );
+		}
+	}
 
 	handleBlur = ( event ) => {
 		const fieldId = event.target.id;
