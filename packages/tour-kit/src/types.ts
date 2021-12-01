@@ -40,6 +40,7 @@ export type Steps = Step[];
 export type TourStepRenderer = React.FunctionComponent< TourStepRendererProps >;
 export type MinimizedTourRenderer = React.FunctionComponent< MinimizedTourRendererProps >;
 export type Callback = ( currentStepIndex: number ) => void;
+export type OnTourRateCallback = ( currentStepIndex: number, liked: boolean ) => void;
 export type CloseHandler = ( steps: Steps, currentStepIndex: number, source: string ) => void;
 export type PopperModifier = Partial< Modifier< unknown, Record< string, unknown > > >;
 
@@ -58,6 +59,8 @@ export interface Config {
 			onGoToStep?: Callback;
 			onNextStep?: Callback;
 			onPreviousStep?: Callback;
+			onStepView?: Callback; // called once per step view (initial step render)
+			onTourRate?: OnTourRateCallback; // called when rating the tour (for the variant that provides tour rating)
 		};
 		effects?: {
 			spotlight?: { styles?: React.CSSProperties };

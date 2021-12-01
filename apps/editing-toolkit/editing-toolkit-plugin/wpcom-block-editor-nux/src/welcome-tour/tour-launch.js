@@ -11,8 +11,8 @@ import { useEffect, useMemo } from '@wordpress/element';
  * Internal Dependencies
  */
 import { usePrefetchTourAssets } from './hooks';
+import TourKitMinimizedViewVariant from './packaged-tour-variants/wpcom/components/tour-kit-wpcom-minimized';
 import { WelcomeTourContextProvider, useWelcomeTourContext } from './tour-context';
-import WelcomeTourMinimized from './tour-minimized-renderer';
 import WelcomeTourStep from './tour-step-renderer';
 import getTourSteps from './tour-steps';
 import './style-tour.scss';
@@ -55,6 +55,21 @@ function LaunchWpcomWelcomeTour() {
 	);
 }
 
+function PackagedTourVariant( { config } ) {
+	// Preload card images
+	usePrefetchTourAssets( config.steps );
+
+	const readyConfig = {
+		...config,
+		renderers: {
+			tourStep: WelcomeTourStep,
+			tourMinimized: TourKitMinimizedViewVariant,
+		},
+	};
+
+	return <TourKit config={ readyConfig } />;
+}
+
 function WelcomeTour() {
 	const localeSlug = useLocale();
 	const { setShowWelcomeGuide } = useDispatch( 'automattic/wpcom-welcome-guide' );
@@ -67,15 +82,8 @@ function WelcomeTour() {
 	);
 	const { setJustMaximized } = useWelcomeTourContext();
 
-	// Preload card images
-	usePrefetchTourAssets( tourSteps );
-
 	const tourConfig = {
 		steps: tourSteps,
-		renderers: {
-			tourStep: WelcomeTourStep,
-			tourMinimized: WelcomeTourMinimized,
-		},
 		closeHandler: ( steps, currentStepIndex, source ) => {
 			recordTracksEvent( 'calypso_editor_wpcom_tour_dismiss', {
 				is_gutenboarding: isGutenboarding,
@@ -97,6 +105,12 @@ function WelcomeTour() {
 					recordTracksEvent( 'calypso_editor_wpcom_tour_maximize', {
 						is_gutenboarding: isGutenboarding,
 						slide_number: currentStepIndex + 1,
+					} );
+				},
+				onTourRate: ( currentStepIndex, liked ) => {
+					recordTracksEvent( 'calypso_editor_wpcom_tour_rate', {
+						thumbs_up: liked,
+						is_gutenboarding: isGutenboarding,
 					} );
 				},
 			},
@@ -137,7 +151,7 @@ function WelcomeTour() {
 		},
 	};
 
-	return <TourKit config={ tourConfig } />;
+	return <PackagedTourVariant config={ tourConfig } />;
 }
 
 export default LaunchWpcomWelcomeTour;
