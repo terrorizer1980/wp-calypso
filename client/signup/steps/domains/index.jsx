@@ -20,6 +20,7 @@ import {
 } from 'calypso/lib/cart-values/cart-items';
 import { getDomainProductSlug, TRUENAME_COUPONS, TRUENAME_TLDS } from 'calypso/lib/domains';
 import { getSuggestionsVendor } from 'calypso/lib/domains/suggestions';
+import { loadExperimentAssignment } from 'calypso/lib/explat';
 import { getSiteTypePropertyValue } from 'calypso/lib/signup/site-type';
 import { maybeExcludeEmailsStep } from 'calypso/lib/signup/step-actions';
 import CalypsoShoppingCartProvider from 'calypso/my-sites/checkout/calypso-shopping-cart-provider';
@@ -122,6 +123,7 @@ class DomainsStep extends Component {
 		this.setCurrentFlowStep = this.setCurrentFlowStep.bind( this );
 		this.state = {
 			currentStep: null,
+			experiment: null,
 		};
 	}
 
@@ -144,6 +146,28 @@ class DomainsStep extends Component {
 
 		return isPlansStepExistsInFutureOfFlow && ! isPlanStepSkipped;
 	};
+
+	componentDidMount() {
+		const signupFlows = [
+			'onboarding',
+			'free',
+			'personal',
+			'premium',
+			'business',
+			'ecommerce',
+			'with-theme',
+			'personal-monthly',
+			'premium-monthly',
+			'business-monthly',
+			'ecommerce-monthly',
+			'with-design-picker',
+		];
+		if ( signupFlows.includes( this.props.flowName ) ) {
+			loadExperimentAssignment( 'domain_step_copy_test_202112' ).then( ( experimentName ) => {
+				this.setState( { experiment: experimentName } );
+			} );
+		}
+	}
 
 	componentDidUpdate( prevProps ) {
 		// If the signup site preview is visible and there's a sub step, e.g., mapping, transfer, use-your-domain
@@ -192,6 +216,10 @@ class DomainsStep extends Component {
 			this.submitWithDomain();
 		} );
 	};
+
+	isExperiment() {
+		return this.state.experiment?.variationName === 'treatment';
+	}
 
 	isPurchasingTheme = () => {
 		return this.props.queryObject && this.props.queryObject.premium;
@@ -562,6 +590,7 @@ class DomainsStep extends Component {
 						this.props.forceHideFreeDomainExplainerAndStrikeoutUi
 					}
 					isReskinned={ this.props.isReskinned }
+					isCopyExperiment={ this.isExperiment() }
 					reskinSideContent={ this.getSideContent() }
 				/>
 			</CalypsoShoppingCartProvider>
@@ -632,6 +661,10 @@ class DomainsStep extends Component {
 		}
 
 		if ( isReskinned ) {
+			if ( this.isExperiment ) {
+				return 'A domain name is a first step in branding your website, and helps you choose your web address, too.';
+			}
+
 			return (
 				! stepSectionName &&
 				translate( "Enter your site's name or some descriptive keywords to get started" )
@@ -668,6 +701,9 @@ class DomainsStep extends Component {
 		}
 
 		if ( isReskinned ) {
+			if ( this.isExperiment() && ! stepSectionName ) {
+				return 'Find a domain';
+			}
 			return ! stepSectionName && translate( 'Choose a domain' );
 		}
 
