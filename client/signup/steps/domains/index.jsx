@@ -124,6 +124,7 @@ class DomainsStep extends Component {
 		this.state = {
 			currentStep: null,
 			experiment: null,
+			experimentLoaded: false,
 		};
 	}
 
@@ -164,9 +165,15 @@ class DomainsStep extends Component {
 		];
 		if ( signupFlows.includes( this.props.flowName ) ) {
 			loadExperimentAssignment( 'domain_step_copy_test_202112' ).then( ( experimentName ) => {
-				this.setState( { experiment: experimentName } );
+				this.setState( { experiment: experimentName, experimentLoaded: true } );
 			} );
+		} else {
+			this.setExperimentLoaded();
 		}
+	}
+
+	setExperimentLoaded() {
+		this.setState( { experimentLoaded: true } );
 	}
 
 	componentDidUpdate( prevProps ) {
@@ -830,30 +837,32 @@ class DomainsStep extends Component {
 		const fallbackSubHeaderText = this.getSubHeaderText();
 
 		return (
-			<StepWrapper
-				flowName={ this.props.flowName }
-				stepName={ this.props.stepName }
-				backUrl={ backUrl }
-				positionInFlow={ this.props.positionInFlow }
-				headerText={ headerText }
-				subHeaderText={ fallbackSubHeaderText }
-				isExternalBackUrl={ isExternalBackUrl }
-				fallbackHeaderText={ headerText }
-				fallbackSubHeaderText={ fallbackSubHeaderText }
-				stepContent={
-					<div>
-						{ ! this.props.productsLoaded && <QueryProductsList /> }
-						{ this.renderContent() }
-					</div>
-				}
-				showSiteMockups={ this.props.showSiteMockups }
-				allowBackFirstStep={ !! backUrl }
-				backLabelText={ backLabelText }
-				hideSkip={ true }
-				goToNextStep={ this.handleSkip }
-				align={ isReskinned ? 'left' : 'center' }
-				isWideLayout={ isReskinned }
-			/>
+			this.state.experimentLoaded && (
+				<StepWrapper
+					flowName={ this.props.flowName }
+					stepName={ this.props.stepName }
+					backUrl={ backUrl }
+					positionInFlow={ this.props.positionInFlow }
+					headerText={ headerText }
+					subHeaderText={ fallbackSubHeaderText }
+					isExternalBackUrl={ isExternalBackUrl }
+					fallbackHeaderText={ headerText }
+					fallbackSubHeaderText={ fallbackSubHeaderText }
+					stepContent={
+						<div>
+							{ ! this.props.productsLoaded && <QueryProductsList /> }
+							{ this.renderContent() }
+						</div>
+					}
+					showSiteMockups={ this.props.showSiteMockups }
+					allowBackFirstStep={ !! backUrl }
+					backLabelText={ backLabelText }
+					hideSkip={ true }
+					goToNextStep={ this.handleSkip }
+					align={ isReskinned ? 'left' : 'center' }
+					isWideLayout={ isReskinned }
+				/>
+			)
 		);
 	}
 }
