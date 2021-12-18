@@ -13,7 +13,6 @@ import {
 	isGSuiteOrGoogleWorkspaceProductSlug,
 	isJetpackProductSlug,
 } from '@automattic/calypso-products';
-import { CheckoutModal, FormStatus, useFormStatus, Button } from '@automattic/composite-checkout';
 import styled from '@emotion/styled';
 import { useTranslate } from 'i18n-calypso';
 import { useState } from 'react';
@@ -27,6 +26,8 @@ import type {
 	RemoveProductFromCart,
 	ResponseCartProduct,
 } from '@automattic/shopping-cart';
+import PartnerLogoIonos from './partner-logo-ionos.png';
+import { CheckoutModal, FormStatus, useFormStatus, Button } from '@automattic/composite-checkout';
 
 export const NonProductLineItem = styled( WPNonProductLineItem )< {
 	theme?: Theme;
@@ -631,6 +632,23 @@ function IntroductoryOfferCallout( {
 	return <DiscountCallout>{ text }</DiscountCallout>;
 }
 
+function PartnerLogo( { coupon }: { coupon: string } ): JSX.Element | null {
+	const translate = useTranslate();
+
+	if ( coupon.startsWith( 'IONOS_' ) ) {
+		return (
+			<div>
+				<div>{ translate( 'Included in your IONOS plan' ) }</div>
+				<div>
+					<img src={ PartnerLogoIonos } alt="IONOS Logo" />
+				</div>
+			</div>
+		);
+	}
+
+	return null;
+}
+
 function DomainDiscountCallout( {
 	product,
 }: {
@@ -749,6 +767,8 @@ function WPLineItem( {
 		product.item_subtotal_integer < originalAmountInteger && originalAmountDisplay
 	);
 
+	const hasPartnerCoupon = responseCart.coupon.startsWith( 'IONOS_' );
+
 	/* eslint-disable wpcalypso/jsx-classname-namespace */
 	return (
 		<div
@@ -806,13 +826,19 @@ function WPLineItem( {
 				</>
 			) }
 
-			{ sublabel && (
+			{ sublabel && ! hasPartnerCoupon && (
 				<LineItemMeta>
 					<LineItemSublabelAndPrice product={ product } />
 					<DomainDiscountCallout product={ product } />
 					<FirstTermDiscountCallout product={ product } />
 					<CouponDiscountCallout product={ product } />
 					<IntroductoryOfferCallout product={ product } />
+				</LineItemMeta>
+			) }
+			{ sublabel && hasPartnerCoupon && (
+				<LineItemMeta>
+					<LineItemSublabelAndPrice product={ product } />
+					<PartnerLogo coupon={ responseCart.coupon } />
 				</LineItemMeta>
 			) }
 			{ isJetpackSearch( product ) && <JetpackSearchMeta product={ product } /> }
