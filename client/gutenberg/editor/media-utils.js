@@ -50,7 +50,7 @@ export const getDisabledDataSources = ( allowedTypes ) => {
 	) {
 		return [];
 	}
-	return [ 'google_photos', 'pexels' ];
+	return [ 'google_photos', 'openverse', 'pexels' ];
 };
 
 const enabledFiltersMap = {
