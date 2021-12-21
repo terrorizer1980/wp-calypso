@@ -9,5 +9,6 @@ export * from './cookie-banner-component';
 export * from './editor-settings-sidebar-component';
 export * from './domain-search-component';
 export * from './isolated-block-editor-component';
+export * from './revisions-component';
 
 export * from './me';
