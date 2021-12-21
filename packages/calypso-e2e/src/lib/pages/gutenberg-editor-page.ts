@@ -384,8 +384,13 @@ export class GutenbergEditorPage {
 	}
 
 	/**
+	 * Obtains the published article's URL from post-publish panels.
 	 *
-	 * @returns
+	 * This method is only able to obtain the published article's URL if immediately
+	 * preceded by the action of publishing the article *and* the post-publish panel
+	 * being visible.
+	 *
+	 * @returns {Promise<string>} Published article's URL.
 	 */
 	async getPublishedURL(): Promise< string > {
 		const frame = await this.getEditorFrame();

@@ -96,14 +96,15 @@ export class EditorSettingsSidebarComponent {
 		// Private posts display a dialog that when accepted will publish the post.
 		// For non-Private posts, this handler has no effect.
 		await Promise.all( [
-			this.page.on( 'dialog', ( dialog ) => dialog.accept() ),
+			this.page.once( 'dialog', ( dialog ) => dialog.accept() ),
 			this.frame.click( selectors.visibilityOption( visibility ) ),
 		] );
 	}
 
 	/**
+	 * Sets the article password, for password-protected articles.
 	 *
-	 * @param password
+	 * @param {string} password Password to be used.
 	 */
 	async setPostPassword( password: string ): Promise< void > {
 		await this.frame.fill( selectors.postPasswordInput, password );
