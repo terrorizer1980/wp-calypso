@@ -40,7 +40,7 @@ describe( DataHelper.createSuiteTitle( `Editor: Revisions` ), function () {
 	} );
 
 	it.each( [ { revision: 1 }, { revision: 2 } ] )(
-		'Create revision %i',
+		'Create revision $revision',
 		async function ( { revision } ) {
 			const blockHandle = await gutenbergEditorPage.addBlock(
 				ParagraphBlock.blockName,
