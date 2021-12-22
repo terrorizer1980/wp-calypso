@@ -60,7 +60,7 @@ describe( DataHelper.createSuiteTitle( `Editor: Revisions` ), function () {
 		await editorSettingsSidebarComponent.showRevisions();
 	} );
 
-	it( 'Restore first revision', async function () {
+	it( 'Restore revision 1', async function () {
 		const revisionsComponent = new RevisionsComponent( page );
 		await revisionsComponent.selectRevision( 1 );
 		await revisionsComponent.clickButton( 'Load' );
