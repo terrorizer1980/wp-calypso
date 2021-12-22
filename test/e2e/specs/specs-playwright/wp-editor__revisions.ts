@@ -10,6 +10,7 @@ import {
 	EditorSettingsSidebarComponent,
 	RevisionsComponent,
 	setupHooks,
+	ParagraphBlock,
 } from '@automattic/calypso-e2e';
 import { Page } from 'playwright';
 
@@ -35,12 +36,18 @@ describe( DataHelper.createSuiteTitle( `Editor: Revisions` ), function () {
 	it( 'Enter post title', async function () {
 		gutenbergEditorPage = new GutenbergEditorPage( page );
 		await gutenbergEditorPage.enterTitle( DataHelper.getRandomPhrase() );
+		await gutenbergEditorPage.saveDraft();
 	} );
 
 	it.each( [ { revision: 1 }, { revision: 2 } ] )(
 		'Create revision %i',
 		async function ( { revision } ) {
-			await gutenbergEditorPage.enterText( `Revision ${ revision }` );
+			const blockHandle = await gutenbergEditorPage.addBlock(
+				ParagraphBlock.blockName,
+				ParagraphBlock.blockEditorSelector
+			);
+			const paragraphBlock = new ParagraphBlock( blockHandle );
+			await paragraphBlock.enterParagraph( `Revision ${ revision }` );
 			await gutenbergEditorPage.saveDraft();
 		}
 	);
