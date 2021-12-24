@@ -1,7 +1,7 @@
 import { localizeUrl } from '@automattic/i18n-utils';
 import { ExternalLink } from '@wordpress/components';
 import { createInterpolateElement } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, hasTranslation } from '@wordpress/i18n';
 
 function getTourAssets( key ) {
 	const CDN_PREFIX = 'https://s0.wp.com/i/editor-welcome-tour';
@@ -138,19 +138,21 @@ function getTourSteps( localeSlug, referencePositioning ) {
 				imgNeedsPadding: true,
 			},
 		},
-		{
-			referenceElements: referencePositioning && referenceElements[ 5 ],
-			meta: {
-				heading: __( 'Find your way', 'full-site-editing' ),
-				description: __(
-					"Use List View to see all the blocks you've added. Click and drag any block to move it around.",
-					'full-site-editing'
-				),
-				imgSrc: getTourAssets( 'findYourWay' ),
-				animation: null,
-				isDesktopOnly: true,
+		localeSlug === 'en' &&
+			hasTranslation?.( 'Find your way' ) && {
+				...{
+					meta: {
+						heading: __( 'Find your way', 'full-site-editing' ),
+						description: __(
+							"Use List View to see all the blocks you've added. Click and drag any block to move it around.",
+							'full-site-editing'
+						),
+						imgSrc: getTourAssets( 'findYourWay' ),
+						animation: null,
+						isDesktopOnly: true,
+					},
+				},
 			},
-		},
 		{
 			referenceElements: referencePositioning && referenceElements[ 6 ],
 			meta: {
