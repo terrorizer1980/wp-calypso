@@ -1106,7 +1106,7 @@ class SignupForm extends Component {
 				</div>
 			);
 		}
-		if ( this.isSimplerMobileForm() ) {
+		if ( this.props.isSimplerMobileForm ) {
 			const socialProps = pick( this.props, [
 				'isSocialSignupEnabled',
 				'handleSocialResponse',

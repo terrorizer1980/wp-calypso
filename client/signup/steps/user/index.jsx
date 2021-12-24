@@ -162,7 +162,7 @@ export class UserStep extends Component {
 			userLoggedIn,
 			wccomFrom,
 			isReskinned,
-		} = props;
+		} = this.props;
 
 		let subHeaderText = this.props.subHeaderText;
 
@@ -221,14 +221,15 @@ export class UserStep extends Component {
 			subHeaderText = translate( 'First, create your WordPress.com account.' );
 
 			if ( isReskinned ) {
-				const loginUrl = this.getLoginUrl( props );
+				const loginUrl = this.getLoginUrl( this.props );
 
-			subHeaderText = translate(
-				'First, create your WordPress.com account. Have an account? {{a}}Log in{{/a}}',
-				{
-					components: { a: <a href={ loginUrl } rel="noopener noreferrer" /> },
-				}
-			);
+				subHeaderText = translate(
+					'First, create your WordPress.com account. Have an account? {{a}}Log in{{/a}}',
+					{
+						components: { a: <a href={ loginUrl } rel="noopener noreferrer" /> },
+					}
+				);
+			}
 		}
 
 		if ( this.props.userLoggedIn ) {
@@ -276,7 +277,7 @@ export class UserStep extends Component {
 		} );
 	};
 
-	submit = ( data ) => {
+	submit( data ) {
 		const { flowName, stepName, oauth2Signup } = this.props;
 		const dependencies = {};
 		if ( oauth2Signup ) {
@@ -297,7 +298,7 @@ export class UserStep extends Component {
 		);
 
 		this.props.goToNextStep();
-	};
+	}
 
 	submitForm = async ( form, userData, analyticsData ) => {
 		const formWithoutPassword = {
@@ -369,7 +370,7 @@ export class UserStep extends Component {
 		} );
 	};
 
-	userCreationComplete = () =>{
+	userCreationComplete = () => {
 		return this.props.step && 'completed' === this.props.step.status;
 	};
 
@@ -383,6 +384,14 @@ export class UserStep extends Component {
 
 	userCreationStarted() {
 		return this.userCreationPending() || this.userCreationComplete();
+	}
+
+	isSimplerMobileForm = () => {
+		return this.props.flowName === 'onboarding' && false;
+	};
+
+	isEmailForm = () => {
+		return this.props.path.includes( '/email' );
 	};
 
 	getHeaderText() {
@@ -441,14 +450,6 @@ export class UserStep extends Component {
 		}
 
 		return headerText;
-	}
-
-	isSimplerMobileForm() {
-		return this.props.flowName === 'onboarding';
-	}
-
-	isEmailForm() {
-		return this.props.path.includes( '/email' );
 	}
 
 	submitButtonText() {
