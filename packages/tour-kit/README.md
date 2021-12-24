@@ -40,11 +40,11 @@ function FooBar() {
 	const config = {
 		steps: [
 			{
-				referenceElements: {
-					desktop: '.render-step-near-me',
-				},
 				meta: {
 					description: 'Lorem ipsum dolor sit amet.',
+					referenceElements: {
+						desktop: '.render-step-near-me',
+					},
 				},
 			},
 		],
