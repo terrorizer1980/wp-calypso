@@ -1,7 +1,7 @@
 import { planHasFeature, FEATURE_UPLOAD_THEMES_PLUGINS } from '@automattic/calypso-products';
 import { getUrlParts } from '@automattic/calypso-url';
 import { Button } from '@automattic/components';
-import { isDesktop, subscribeIsDesktop } from '@automattic/viewport';
+import { isDesktop, subscribeIsDesktop, isMobile } from '@automattic/viewport';
 import classNames from 'classnames';
 import { localize } from 'i18n-calypso';
 import { intersection } from 'lodash';
@@ -30,12 +30,20 @@ export class PlansStep extends Component {
 	state = {
 		isDesktop: isDesktop(),
 		experiment: null,
+		mobileExperiment: null,
 	};
 
 	componentWillMount() {
 		loadExperimentAssignment( 'disabled_monthly_personal_premium_v2' ).then( ( experimentName ) => {
 			this.setState( { experiment: experimentName } );
 		} );
+		if ( isMobile() ) {
+			loadExperimentAssignment( 'calypso_mobile_plans_page_with_billing' ).then(
+				( experimentName ) => {
+					this.setState( { mobileExperiment: experimentName } );
+				}
+			);
+		}
 	}
 
 	componentDidMount() {
@@ -156,6 +164,7 @@ export class PlansStep extends Component {
 					site={ selectedSite || {} } // `PlanFeaturesMain` expects a default prop of `{}` if no site is provided
 					hideFreePlan={ hideFreePlan }
 					isInSignup={ true }
+					isBillingWordingExperiment={ this.state.mobileExperiment?.variationName !== null }
 					isLaunchPage={ isLaunchPage }
 					intervalType={ this.getIntervalType() }
 					onUpgradeClick={ this.onSelectPlan }

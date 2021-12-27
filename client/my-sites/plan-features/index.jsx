@@ -311,6 +311,7 @@ export class PlanFeatures extends Component {
 			showPlanCreditsApplied,
 			isLaunchPage,
 			isInVerticalScrollingPlansExperiment,
+			isBillingWordingExperiment,
 		} = this.props;
 
 		// move any free plan to last place in mobile view
@@ -413,6 +414,7 @@ export class PlanFeatures extends Component {
 						isInVerticalScrollingPlansExperiment={ isInVerticalScrollingPlansExperiment }
 						isLoggedInMonthlyPricing={ this.props.isLoggedInMonthlyPricing }
 						isInSignup={ isInSignup }
+						isBillingWordingExperiment={ isBillingWordingExperiment }
 					/>
 					{ isDisabled && (
 						<p className="plan-features__not-available">
