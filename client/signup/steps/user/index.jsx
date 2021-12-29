@@ -387,7 +387,7 @@ export class UserStep extends Component {
 	}
 
 	isSimplerMobileForm = () => {
-		return this.props.flowName === 'onboarding' && false;
+		return this.props.flowName === 'onboarding' || true;
 	};
 
 	isEmailForm = () => {
