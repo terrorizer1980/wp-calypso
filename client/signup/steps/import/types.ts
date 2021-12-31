@@ -7,6 +7,8 @@ export type UrlData = {
 	platform_data?: {
 		is_wpcom: boolean;
 	};
+	name: string;
+	favicon: string;
 };
 export type MShotParams = {
 	vpw?: number;
