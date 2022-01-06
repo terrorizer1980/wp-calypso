@@ -5,7 +5,6 @@ import { recordTracksEvent } from '@automattic/calypso-analytics';
 import { getMediaQueryList, isMobile, MOBILE_BREAKPOINT } from '@automattic/viewport';
 import { Button, Card, CardBody, CardFooter, CardMedia, Flex } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { close } from '@wordpress/icons';
 import classNames from 'classnames';
@@ -19,17 +18,12 @@ import PaginationControl from './pagination';
 
 import './style-tour.scss';
 
-// eslint-disable-next-line react-hooks/exhaustive-deps
-const useEffectOnlyOnce = ( func ) => useEffect( func, [] );
-
 function WelcomeTourCard( {
 	cardContent,
 	currentStepIndex,
-	justMaximized,
 	lastStepIndex,
 	onMinimize,
 	onDismiss,
-	setJustMaximized,
 	setCurrentStepIndex,
 	onNextStepProgression,
 	onPreviousStepProgression,
@@ -39,21 +33,6 @@ function WelcomeTourCard( {
 	const { descriptions, heading, imgSrc, imgNeedsPadding } = cardContent;
 	const isLastStep = currentStepIndex === lastStepIndex;
 
-	// Ensure tracking is recorded once per slide view
-	useEffectOnlyOnce( () => {
-		// Don't track slide view if returning from minimized state
-		if ( justMaximized ) {
-			setJustMaximized( false );
-			return;
-		}
-
-		recordTracksEvent( 'calypso_editor_wpcom_tour_slide_view', {
-			slide_number: currentStepIndex + 1,
-			is_last_slide: isLastStep,
-			slide_heading: heading,
-			is_gutenboarding: isGutenboarding,
-		} );
-	} );
 	// TODO CLK: welcome tour only mod for mobile fixes
 	const cardMediaClass = classNames( 'welcome-tour-card__media', {
 		'is-with-extra-padding': isMobile() && imgNeedsPadding,
