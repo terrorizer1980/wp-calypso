@@ -164,7 +164,7 @@ class DomainsStep extends Component {
 			'with-design-picker',
 		];
 		if ( signupFlows.includes( this.props.flowName ) ) {
-			loadExperimentAssignment( 'domain_step_copy_test_202112' ).then( ( experimentName ) => {
+			loadExperimentAssignment( 'domain_step_copy_test_202201' ).then( ( experimentName ) => {
 				this.setState( { experiment: experimentName, experimentLoaded: true } );
 			} );
 		} else {
@@ -225,7 +225,7 @@ class DomainsStep extends Component {
 	};
 
 	isExperiment() {
-		return this.state.experiment?.variationName === 'treatment';
+		return this.state.experiment?.variationName !== null;
 	}
 
 	isPurchasingTheme = () => {
@@ -668,7 +668,7 @@ class DomainsStep extends Component {
 		}
 
 		if ( isReskinned ) {
-			if ( this.isExperiment ) {
+			if ( ! stepSectionName && this.isExperiment ) {
 				return 'A domain name is a first step in branding your website, and helps you choose your web address, too.';
 			}
 
