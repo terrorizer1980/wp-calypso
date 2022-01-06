@@ -159,7 +159,7 @@ export default function Confirm( props: WooCommerceInstallProps ): ReactElement 
 			hideSkip={ true }
 			nextLabelText={ __( 'Confirm' ) }
 			allowBackFirstStep={ true }
-			backUrl={ isEnabled( 'woop' ) ? null : `/woocommerce-installation/${ wpcomDomain }` }
+			backUrl={ isEnabled( 'woop' ) ? `/woocommerce-installation/store-address/${ wpcomDomain }` : `/woocommerce-installation/${ wpcomDomain }` }
 			headerText={ headerTitle }
 			fallbackHeaderText={ headerTitle }
 			subHeaderText={ headerDescription }

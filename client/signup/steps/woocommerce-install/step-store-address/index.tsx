@@ -101,7 +101,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 			hideSkip={ true }
 			nextLabelText={ __( 'Confirm' ) }
 			allowBackFirstStep={ true }
-			backUrl={ `/woocommerce-installation/${ wpcomDomain }` }
+			backUrl={ `/woocommerce-installation/business-info/${ wpcomDomain }` }
 			headerText={ headerTitle }
 			fallbackHeaderText={ headerTitle }
 			subHeaderText={ headerDescription }
