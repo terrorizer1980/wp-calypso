@@ -16,7 +16,6 @@ import {
 	WOOCOMMERCE_DEFAULT_COUNTRY,
 	WOOCOMMERCE_STORE_POSTCODE,
 } from '../hooks/use-site-settings';
-import useWooCommerceOnPlansEligibility from '../hooks/use-woop-handling';
 import type { WooCommerceInstallProps } from '..';
 import type { ChangeEventHandler } from 'react';
 import './style.scss';
@@ -26,8 +25,6 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 	const { __ } = useI18n();
 
 	const siteId = useSelector( getSelectedSiteId ) as number;
-
-	const { wpcomDomain } = useWooCommerceOnPlansEligibility( siteId );
 
 	const { get, save, update, countriesList } = useSiteSettings( siteId );
 
@@ -101,7 +98,6 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 			hideSkip={ true }
 			nextLabelText={ __( 'Confirm' ) }
 			allowBackFirstStep={ true }
-			backUrl={ `/woocommerce-installation/business-info/${ wpcomDomain }` }
 			headerText={ headerTitle }
 			fallbackHeaderText={ headerTitle }
 			subHeaderText={ headerDescription }
