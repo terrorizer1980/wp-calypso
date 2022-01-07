@@ -1,5 +1,4 @@
 import { mapRecordKeysRecursively, camelToSnakeCase } from '@automattic/js-utils';
-import getToSAcceptancePayload from 'calypso/lib/tos-acceptance-tracking';
 import wp from 'calypso/lib/wp';
 import { setSelectedSiteId } from 'calypso/state/ui/actions';
 import { createAccount } from '../payment-method-helpers';
@@ -50,7 +49,6 @@ export default async function submitWpcomTransaction(
 					cart_key: siteId || 'no-site',
 					create_new_blog: siteId ? false : true,
 				},
-				tos: getToSAcceptancePayload(),
 			};
 			return wp.req.post(
 				'/me/transactions',
@@ -59,14 +57,5 @@ export default async function submitWpcomTransaction(
 		} );
 	}
 
-	return wp.req.post(
-		'/me/transactions',
-		mapRecordKeysRecursively(
-			{
-				...payload,
-				tos: getToSAcceptancePayload(),
-			},
-			camelToSnakeCase
-		)
-	);
+	return wp.req.post( '/me/transactions', mapRecordKeysRecursively( payload, camelToSnakeCase ) );
 }
