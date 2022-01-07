@@ -37,6 +37,7 @@ const ProviderWrappedLoggedOutLayout = ( {
 	primary,
 	secondary,
 	redirectUri,
+	requestCookies,
 } ) => (
 	<CalypsoI18nProvider>
 		<RouteProvider
@@ -50,6 +51,7 @@ const ProviderWrappedLoggedOutLayout = ( {
 						primary={ primary }
 						secondary={ secondary }
 						redirectUri={ redirectUri }
+						requestCookies={ requestCookies }
 					/>
 				</ReduxProvider>
 			</QueryClientProvider>
