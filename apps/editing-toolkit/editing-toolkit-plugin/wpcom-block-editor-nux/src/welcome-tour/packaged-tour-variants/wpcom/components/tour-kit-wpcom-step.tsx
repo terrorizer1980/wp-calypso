@@ -2,7 +2,7 @@ import WelcomeTourCard from './tour-card';
 import { useWelcomeTourContext } from './tour-context';
 import type { TourStepRenderer } from '@automattic/tour-kit';
 
-const WelcomeTourStep: TourStepRenderer = ( {
+const TourKitWPCOMStep: TourStepRenderer = ( {
 	steps,
 	currentStepIndex,
 	onDismiss,
@@ -34,4 +34,4 @@ const WelcomeTourStep: TourStepRenderer = ( {
 	);
 };
 
-export default WelcomeTourStep;
+export default TourKitWPCOMStep;
