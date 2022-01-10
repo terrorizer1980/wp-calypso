@@ -52,6 +52,11 @@ describe( 'payPalExpressProcessor', () => {
 		domain_details: null,
 		postal_code: '',
 		success_url: 'https://example.com',
+		tos: {
+			locale: 'en',
+			path: '/',
+			viewport: '0x0',
+		},
 	};
 
 	it( 'sends the correct data to the endpoint with no site and one product', async () => {
