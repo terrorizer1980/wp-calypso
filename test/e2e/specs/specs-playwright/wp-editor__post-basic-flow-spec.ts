@@ -5,17 +5,16 @@
  */
 
 import {
-	BrowserHelper,
 	DataHelper,
 	GutenbergEditorPage,
 	EditorSettingsSidebarComponent,
-	setupHooks,
 	PublishedPostPage,
 	ImageBlock,
 	skipItIf,
 	TestAccount,
+	envVariables,
 } from '@automattic/calypso-e2e';
-import { Page, ElementHandle } from 'playwright';
+import { Page, ElementHandle, Browser } from 'playwright';
 
 const quote =
 	'The problem with quotes on the Internet is that it is hard to verify their authenticity. \n— Abraham Lincoln';
@@ -23,17 +22,19 @@ const title = DataHelper.getRandomPhrase();
 const category = 'Uncategorized';
 const tag = 'test-tag';
 
+declare const browser: Browser;
+
 describe( DataHelper.createSuiteTitle( 'Editor: Basic Post Flow' ), function () {
 	let page: Page;
 	let gutenbergEditorPage: GutenbergEditorPage;
 	let editorSettingsSidebarComponent: EditorSettingsSidebarComponent;
 	let publishedPostPage: PublishedPostPage;
-	const accountName = BrowserHelper.targetGutenbergEdge()
+	const accountName = envVariables.GUTENBERG_EDGE
 		? 'gutenbergSimpleSiteEdgeUser'
 		: 'simpleSitePersonalPlanUser';
 
-	setupHooks( async ( args ) => {
-		page = args.page;
+	beforeAll( async () => {
+		page = await browser.newPage();
 		gutenbergEditorPage = new GutenbergEditorPage( page );
 
 		const testAccount = new TestAccount( accountName );
@@ -95,7 +96,6 @@ describe( DataHelper.createSuiteTitle( 'Editor: Basic Post Flow' ), function () 
 	} );
 
 	describe( 'Preview', function () {
-		const targetDevice = BrowserHelper.getTargetDeviceName();
 		let previewPage: Page;
 
 		// This step is required on mobile, but doesn't hurt anything on desktop, so avoiding conditional.
@@ -108,7 +108,7 @@ describe( DataHelper.createSuiteTitle( 'Editor: Basic Post Flow' ), function () 
 		// On desktop and tablet, preview applies CSS attributes to modify the preview in-editor.
 		// On mobile web, preview button opens a new tab.
 		it( 'Launch preview', async function () {
-			if ( BrowserHelper.getTargetDeviceName() === 'mobile' ) {
+			if ( envVariables.VIEWPORT_NAME === 'mobile' ) {
 				previewPage = await gutenbergEditorPage.openPreviewAsMobile();
 			} else {
 				await gutenbergEditorPage.openPreviewAsDesktop( 'Mobile' );
@@ -126,7 +126,7 @@ describe( DataHelper.createSuiteTitle( 'Editor: Basic Post Flow' ), function () 
 		} );
 
 		// Step skipped for mobile, since previewing naturally saves the post, rendering this step unnecessary.
-		skipItIf( targetDevice === 'mobile' )( 'Save draft', async function () {
+		skipItIf( envVariables.VIEWPORT_NAME === 'mobile' )( 'Save draft', async function () {
 			await gutenbergEditorPage.saveDraft();
 		} );
 	} );

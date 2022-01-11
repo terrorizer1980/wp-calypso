@@ -2,25 +2,21 @@
  * @group gutenberg
  */
 
-import {
-	BrowserHelper,
-	DataHelper,
-	SidebarComponent,
-	setupHooks,
-	TestAccount,
-} from '@automattic/calypso-e2e';
-import { Page } from 'playwright';
+import { BrowserHelper, DataHelper, SidebarComponent, TestAccount } from '@automattic/calypso-e2e';
+import { Page, Browser } from 'playwright';
 
 const accountName = BrowserHelper.targetGutenbergEdge()
 	? 'gutenbergSimpleSiteEdgeUser'
 	: 'gutenbergSimpleSiteUser';
 
+declare const browser: Browser;
+
 describe( DataHelper.createSuiteTitle( 'Widgets' ), function () {
 	let sidebarComponent: SidebarComponent;
 	let page: Page;
 
-	setupHooks( async ( args ) => {
-		page = args.page;
+	beforeAll( async () => {
+		page = await browser.newPage();
 
 		const testAccount = new TestAccount( accountName );
 		await testAccount.authenticate( page );

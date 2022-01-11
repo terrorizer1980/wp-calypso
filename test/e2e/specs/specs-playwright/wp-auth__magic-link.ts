@@ -2,9 +2,11 @@
  * @group calypso-release
  */
 
-import { setupHooks, DataHelper, EmailClient, LoginPage } from '@automattic/calypso-e2e';
-import { Page } from 'playwright';
+import { DataHelper, EmailClient, LoginPage } from '@automattic/calypso-e2e';
+import { Page, Browser } from 'playwright';
 import type { Message } from 'mailosaur/lib/models';
+
+declare const browser: Browser;
 
 describe( DataHelper.createSuiteTitle( 'Authentication: Magic Link' ), function () {
 	const inboxId = DataHelper.config.get( 'defaultUserInboxId' ) as string;
@@ -20,8 +22,8 @@ describe( DataHelper.createSuiteTitle( 'Authentication: Magic Link' ), function 
 	let message: Message;
 	let emailClient: EmailClient;
 
-	setupHooks( ( args: { page: Page } ) => {
-		page = args.page;
+	beforeAll( async () => {
+		page = await browser.newPage();
 	} );
 
 	it( 'Navigate to Login page', async function () {
