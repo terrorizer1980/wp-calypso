@@ -4,6 +4,7 @@ const selectors = {
 	editor: '#widgets-editor',
 
 	welcomeModalDismissButton: 'button[aria-label="Close dialogue"]',
+	welcomeTourDismissButton: 'button[aria-label="Close Tour"]',
 
 	addBlockButton: 'button[aria-label="Add block"]',
 	blockSearch: 'input[placeholder="Search"]',
@@ -30,26 +31,17 @@ export class BlockWidgetEditorComponent {
 	 * Note that this is not the same as the Welcome Tour, which is identical to the tour
 	 * modal shown in the Gutenberg editor.
 	 */
-	async dismissWelcomeModal(): Promise< void > {
-		const locator = this.page.locator( selectors.welcomeModalDismissButton );
+	async dismissModals(): Promise< void > {
+		const welcomeButtonLocator = this.page.locator( selectors.welcomeModalDismissButton );
 		// Only click if the locator resolves to an element.
-		if ( ( await locator.count() ) > 0 ) {
-			await locator.click();
+		if ( ( await welcomeButtonLocator.count() ) > 0 ) {
+			await welcomeButtonLocator.click();
 		}
 
-		await this.page.waitForFunction(
-			async () =>
-				await ( window as any ).wp.data
-					.select( 'automattic/wpcom-welcome-guide' )
-					.isWelcomeGuideStatusLoaded()
-		);
+		const welcomeTourButtonLocator = this.page.locator( selectors.welcomeTourDismissButton );
 
-		await this.page.waitForFunction( async () => {
-			const actionPayload = await ( window as any ).wp.data
-				.dispatch( 'automattic/wpcom-welcome-guide' )
-				.setShowWelcomeGuide( false );
-
-			return actionPayload.show === false;
-		} );
+		if ( ( await welcomeTourButtonLocator.count() ) > 0 ) {
+			await welcomeTourButtonLocator.click();
+		}
 	}
 }

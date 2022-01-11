@@ -71,7 +71,7 @@ describe( DataHelper.createSuiteTitle( 'Editor: Basic Post Flow' ), function () 
 		} );
 	} );
 
-	describe( 'Patterns', function () {
+	describe.skip( 'Patterns', function () {
 		const patternName = 'About Me';
 
 		it( `Add ${ patternName }`, async function () {
