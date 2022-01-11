@@ -39,7 +39,7 @@ describe( DataHelper.createSuiteTitle( 'Widgets' ), function () {
 		await blockWidgetEditorComponent.dismissWelcomeModal();
 	} );
 
-	// @todo: Refåactor/Abstract these steps into a WidgetsEditor component
+	// @todo: Refactor/Abstract these steps into a WidgetsEditor component
 	describe( 'Regression: Verify that the visibility option is present', function () {
 		it( 'Insert a Legacy Widget', async function () {
 			await page.click( 'button[aria-label="Add block"]' );
