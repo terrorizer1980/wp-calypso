@@ -33,15 +33,13 @@ export class BlockWidgetEditorComponent {
 	 */
 	async dismissModals(): Promise< void > {
 		const welcomeButtonLocator = this.page.locator( selectors.welcomeModalDismissButton );
-		// Only click if the locator resolves to an element.
-		if ( ( await welcomeButtonLocator.count() ) > 0 ) {
-			await welcomeButtonLocator.click();
-		}
-
 		const welcomeTourButtonLocator = this.page.locator( selectors.welcomeTourDismissButton );
-
-		if ( ( await welcomeTourButtonLocator.count() ) > 0 ) {
+		// Only click if the locator resolves to an element.
+		try {
+			await welcomeButtonLocator.click();
 			await welcomeTourButtonLocator.click();
+		} catch {
+			// noop
 		}
 	}
 }

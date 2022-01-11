@@ -35,7 +35,7 @@ describe( DataHelper.createSuiteTitle( 'Widgets' ), function () {
 		await sidebarComponent.navigate( 'Appearance', 'Widgets' );
 	} );
 
-	it( 'Dismiss the Welcome Guide Notice if displayed', async function () {
+	it( 'Dismiss the Welcome modals', async function () {
 		const blockWidgetEditorComponent = new BlockWidgetEditorComponent( page );
 		await blockWidgetEditorComponent.dismissModals();
 	} );
