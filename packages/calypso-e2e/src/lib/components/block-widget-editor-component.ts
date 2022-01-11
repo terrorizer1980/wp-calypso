@@ -26,20 +26,24 @@ export class BlockWidgetEditorComponent {
 	}
 
 	/**
-	 * Dismiss the Welcome to Block Widgets modal.
+	 * Dismiss any welcome modals that appear.
 	 *
-	 * Note that this is not the same as the Welcome Tour, which is identical to the tour
-	 * modal shown in the Gutenberg editor.
+	 * These include:
+	 * 	- Welcome modal
+	 * 	- Welcome Tour
 	 */
 	async dismissModals(): Promise< void > {
-		const welcomeButtonLocator = this.page.locator( selectors.welcomeModalDismissButton );
-		const welcomeTourButtonLocator = this.page.locator( selectors.welcomeTourDismissButton );
-		// Only click if the locator resolves to an element.
-		try {
-			await welcomeButtonLocator.click();
-			await welcomeTourButtonLocator.click();
-		} catch {
-			// noop
+		const locators = [
+			this.page.locator( selectors.welcomeModalDismissButton ),
+			this.page.locator( selectors.welcomeTourDismissButton ),
+		];
+
+		for await ( const locator of locators ) {
+			try {
+				await locator.click( { timeout: 10 * 1000 } );
+			} catch {
+				//noop
+			}
 		}
 	}
 }
