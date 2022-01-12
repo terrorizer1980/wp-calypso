@@ -55,6 +55,15 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 
 	const { validate, clearError, getError } = useAddressFormValidation( siteId );
 
+	const address1Error = getError( WOOCOMMERCE_STORE_ADDRESS_1 );
+	const address2Error = getError( WOOCOMMERCE_STORE_ADDRESS_2 );
+	const countryError = getError( WOOCOMMERCE_DEFAULT_COUNTRY );
+	const cityError = getError( WOOCOMMERCE_STORE_CITY );
+	const postcodeError = getError( WOOCOMMERCE_STORE_POSTCODE );
+	useEffect( () => {
+		return;
+	}, [ address1Error, address2Error, countryError, cityError, postcodeError ] );
+
 	function getContent() {
 		return (
 			<>
@@ -68,7 +77,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 							clearError( WOOCOMMERCE_STORE_ADDRESS_1 );
 						} }
 					/>
-					<ControlError error={ getError( WOOCOMMERCE_STORE_ADDRESS_1 ) } />
+					<ControlError error={ address1Error } />
 
 					<TextControl
 						label={ __( 'Address line 2' ) }
@@ -78,7 +87,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 							clearError( WOOCOMMERCE_STORE_ADDRESS_2 );
 						} }
 					/>
-					<ControlError error={ getError( WOOCOMMERCE_STORE_ADDRESS_2 ) } />
+					<ControlError error={ address2Error } />
 
 					<ComboboxControl
 						label={ __( 'Country / Region' ) }
@@ -89,7 +98,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 						} }
 						options={ countriesAsOptions }
 					/>
-					<ControlError error={ getError( WOOCOMMERCE_DEFAULT_COUNTRY ) } />
+					<ControlError error={ countryError } />
 
 					<CityZipRow>
 						<div>
@@ -101,7 +110,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 									clearError( WOOCOMMERCE_STORE_CITY );
 								} }
 							/>
-							<ControlError error={ getError( WOOCOMMERCE_STORE_CITY ) } />
+							<ControlError error={ cityError } />
 						</div>
 
 						<div>
@@ -113,7 +122,7 @@ export default function StepStoreAddress( props: WooCommerceInstallProps ): Reac
 									clearError( WOOCOMMERCE_STORE_POSTCODE );
 								} }
 							/>
-							<ControlError error={ getError( WOOCOMMERCE_STORE_POSTCODE ) } />
+							<ControlError error={ postcodeError } />
 						</div>
 					</CityZipRow>
 
