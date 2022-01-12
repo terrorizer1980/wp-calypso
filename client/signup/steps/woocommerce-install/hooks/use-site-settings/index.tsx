@@ -15,7 +15,7 @@ export const WOOCOMMERCE_STORE_CITY = 'woocommerce_store_city';
 export const WOOCOMMERCE_DEFAULT_COUNTRY = 'woocommerce_default_country';
 export const WOOCOMMERCE_STORE_POSTCODE = 'woocommerce_store_postcode';
 
-type optionNameType =
+export type optionNameType =
 	| 'blog_public'
 	| typeof WOOCOMMERCE_STORE_ADDRESS_1
 	| typeof WOOCOMMERCE_STORE_ADDRESS_2
