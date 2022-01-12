@@ -11,7 +11,6 @@ import { useEffect, useMemo } from '@wordpress/element';
  * Internal Dependencies
  */
 import { usePrefetchTourAssets } from './hooks';
-import { WelcomeTourContextProvider } from './tour-context';
 import WelcomeTourMinimized from './tour-minimized-renderer';
 import WelcomeTourStep from './tour-step-renderer';
 import getTourSteps from './tour-steps';
@@ -48,11 +47,7 @@ function LaunchWpcomWelcomeTour() {
 		return null;
 	}
 
-	return (
-		<WelcomeTourContextProvider>
-			<WelcomeTour />
-		</WelcomeTourContextProvider>
-	);
+	return <WelcomeTour />;
 }
 
 function WelcomeTour() {
