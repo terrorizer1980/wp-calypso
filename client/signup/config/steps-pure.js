@@ -38,7 +38,7 @@ export function generateSteps( {
 	isSiteTopicFulfilled = noop,
 	maybeRemoveStepForUserlessCheckout = noop,
 	isNewOrExistingSiteFulfilled = noop,
-	setDesignIfNewSite = noop,
+	setDIFMLiteDesign = noop,
 	excludeStepIfEmailVerified = noop,
 } = {} ) {
 	return {
@@ -728,7 +728,7 @@ export function generateSteps( {
 		'new-or-existing-site': {
 			stepName: 'new-or-existing-site',
 			fulfilledStepCallback: isNewOrExistingSiteFulfilled,
-			providesDependencies: [ 'newOrExistingSiteChoice' ],
+			providesDependencies: [ 'newOrExistingSiteChoice', 'shouldHideFreePlan' ],
 		},
 
 		'difm-site-picker': {
@@ -743,11 +743,11 @@ export function generateSteps( {
 
 		'difm-design-setup-site': {
 			stepName: 'difm-design-setup-site',
-			apiRequestFunction: setDesignIfNewSite,
+			apiRequestFunction: setDIFMLiteDesign,
 			delayApiRequestUntilComplete: true,
-			dependencies: [ 'siteSlug', 'newOrExistingSiteChoice' ],
-			providesDependencies: [ 'selectedDesign', 'selectedSiteCategory' ],
-			optionalDependencies: [ 'selectedDesign' ],
+			dependencies: [ 'newOrExistingSiteChoice' ],
+			providesDependencies: [ 'selectedDesign', 'selectedSiteCategory', 'cartItem', 'siteSlug' ],
+			optionalDependencies: [ 'selectedDesign', 'cartItem', 'siteSlug' ],
 			props: {
 				hideSkip: true,
 				hideExternalPreview: true,
@@ -758,10 +758,18 @@ export function generateSteps( {
 		},
 		'site-info-collection': {
 			stepName: 'site-info-collection',
-			dependencies: [ 'siteSlug', 'selectedDesign', 'newOrExistingSiteChoice' ],
-			providesDependencies: [ 'cartItem', 'typeformResponseId' ],
-			apiRequestFunction: addPlanToCart,
-			delayApiRequestUntilComplete: true,
+			dependencies: [ 'newOrExistingSiteChoice' ],
+			providesDependencies: [
+				'siteTitle',
+				'siteDescription',
+				'twitterUrl',
+				'facebookUrl',
+				'linkedinUrl',
+				'instagramUrl',
+				'displayEmail',
+				'displayPhone',
+				'displayAddress',
+			],
 		},
 		courses: {
 			stepName: 'courses',
